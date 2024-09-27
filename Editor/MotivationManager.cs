@@ -21,30 +21,30 @@ public static class MotivationManager
 	[EditorEvent.FrameAttribute]
 	public static void Frame()
 	{
-		
-		if ( NoticeManager.All.Any() && !_hasMotivation )
+		if ( NoticeManager.All.Any( x => x.GetType().ToString() == "Editor.CodeCompileNotice" && x is NoticeWidget widget && widget.BorderColor == Theme.Red ) )
 		{
-			foreach ( var notice in NoticeManager.All.ToList() )
-			{
-				if ( notice.IsValid() && notice.GetType().ToString() == "Editor.CodeCompileNotice" && notice is NoticeWidget widget && widget.BorderColor == Theme.Red )
-				{
-					EditorUtility.PlayAssetSound( sound );
-					var s = new MotivationNotice();
-					NoticeManager.Remove(notice, 30);
-				}
-			}
+			ShowBaka();
 		}
-		
-		/*if ( !Cooldown )
+		else
 		{
-			return;
+			HideBaka();
 		}
-
-		_ = new MotivationNotice();
-
-		const int MIN_MINUTES = 15;
-		const int MAX_MINUTES = 30;
-
-		Cooldown = 60 * Game.Random.Next( MIN_MINUTES, MAX_MINUTES );*/
 	}
+	
+	private static void ShowBaka()
+	{
+		if (_hasMotivation) return;
+		EditorUtility.PlayRawSound( "sounds/baka.wav" );
+		var s = new MotivationNotice();
+		NoticeManager.Remove( s, 30 );
+	}
+	
+	private static void HideBaka()
+	{
+		if ( _hasMotivation )
+		{
+			NoticeManager.Remove( NoticeManager.All.FirstOrDefault( x => x is MotivationNotice ) );
+		}
+	}
+	
 }
