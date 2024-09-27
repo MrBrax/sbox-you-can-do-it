@@ -1,5 +1,7 @@
 using Sandbox;
 using System;
+using System.Linq;
+
 namespace Editor;
 
 public static class MotivationManager
@@ -14,6 +16,8 @@ public static class MotivationManager
 
 	private static bool _hasMotivation => NoticeManager.All.FirstOrDefault( x => x is MotivationNotice ) != null;
 
+	private static SoundFile sound = SoundFile.Load("sounds/baka.wav");
+
 	[EditorEvent.FrameAttribute]
 	public static void Frame()
 	{
@@ -24,8 +28,9 @@ public static class MotivationManager
 			{
 				if ( notice.IsValid() && notice.GetType().ToString() == "Editor.CodeCompileNotice" && notice is NoticeWidget widget && widget.BorderColor == Theme.Red )
 				{
-					EditorUtility.PlayAssetSound( SoundFile.Load( "sounds/baka.wav") );
-					_ = new MotivationNotice();
+					EditorUtility.PlayAssetSound( sound );
+					var s = new MotivationNotice();
+					NoticeManager.Remove(notice, 30);
 				}
 			}
 		}

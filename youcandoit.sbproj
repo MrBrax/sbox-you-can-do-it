@@ -1,8 +1,8 @@
 {
-  "Title": "You Can Do It!",
+  "Title": "Weeb Error",
   "Type": "library",
-  "Org": "badandbest",
-  "Ident": "youcandoit",
+  "Org": "brax",
+  "Ident": "weeb_error",
   "Schema": 1,
   "IncludeSourceFiles": true,
   "Resources": null,
@@ -10,7 +10,7 @@
   "EditorReferences": null,
   "IsWhitelistDisabled": false,
   "Metadata": {
-    "CsProjName": "You Can Do It",
+    "CsProjName": "Weeb Error",
     "Compiler": {
       "RootNamespace": "Sandbox",
       "DefineConstants": "SANDBOX;ADDON;DEBUG",
