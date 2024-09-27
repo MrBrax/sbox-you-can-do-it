@@ -12,20 +12,34 @@ public static class MotivationManager
 		Cooldown = 5;
 	}
 
+	private static bool _hasMotivation => NoticeManager.All.FirstOrDefault( x => x is MotivationNotice ) != null;
+
 	[EditorEvent.FrameAttribute]
 	public static void Frame()
 	{
-		if ( !Cooldown )
+		
+		if ( NoticeManager.All.Any() && !_hasMotivation )
+		{
+			foreach ( var notice in NoticeManager.All.ToList() )
+			{
+				if ( notice.IsValid() && notice.GetType().ToString() == "Editor.CodeCompileNotice" && notice is NoticeWidget widget && widget.BorderColor == Theme.Red )
+				{
+					EditorUtility.PlayAssetSound( SoundFile.Load( "sounds/baka.wav") );
+					_ = new MotivationNotice();
+				}
+			}
+		}
+		
+		/*if ( !Cooldown )
 		{
 			return;
 		}
 
-		var notice = new MotivationNotice();
-		NoticeManager.Remove( notice, 30 );
+		_ = new MotivationNotice();
 
 		const int MIN_MINUTES = 15;
 		const int MAX_MINUTES = 30;
 
-		Cooldown = 60 * Game.Random.Next( MIN_MINUTES, MAX_MINUTES );
+		Cooldown = 60 * Game.Random.Next( MIN_MINUTES, MAX_MINUTES );*/
 	}
 }
